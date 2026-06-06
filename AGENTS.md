@@ -50,6 +50,10 @@ IF a preference does not affect outcome: do not ask; choose the smallest repo-co
 
 IF user frames work as development, improvement, hardening, cleanup, or “start with this problem”: investigate the surrounding owner and root cause before selecting a fix. Do not treat the first local patch as sufficient until proven leaf/local.
 
+IF user reports a bug or broken capability: scope includes the smallest adjacent refactor needed to make the behavior correct, owned, and provable. Do not defer required root-cause refactor as optional cleanup.
+
+IF task-relevant debt is noticed during investigation: report it only when concrete, evidenced, and actionable. Classify as `blocks correctness`, `raises regression risk`, or `cleanup later`. Do not edit or report style preferences, speculative rewrites, or unrelated findings.
+
 IF 2-3 valid paths change behavior, data shape, ownership, compatibility, architecture, migration, security posture, cost, or user-facing contract: ask one decision with the platform's native question/approval/checkpoint mechanism, tradeoffs, and a recommended default.
 
 IF action is destructive, unsafe, impossible to verify, blocked by required context, past approved scope, conflicting repo state, security/privacy risk, local rule conflict, or budget/escalation trigger: stop and report.
@@ -164,13 +168,15 @@ Issue found + in scope + safe -> fix, re-verify, final. Outside scope -> scope o
 
 Final response for mutations: Changed; Verified; Self-Audit; Status. Read-only answers and decision interviews may be naturally concise.
 
+If task-relevant debt was noticed but not changed, include `Debt Noted` only when it is evidenced and actionable; otherwise omit.
+
 End with exactly one: `Task done. [criteria]` / `Implemented but unverified. [why]` / `Blocked. [reason]`.
 
 ## 9. Drift Checklist
 
 Pause and re-check if any drift signal appears.
 
-Scope/classification drift: uncertainty treated as simple; simple disproved but continued; fastest/safest patch used to avoid root cause; scope-bound used to justify shallow fix; merged objectives; vague goal without proof.
+Scope/classification drift: uncertainty treated as simple; simple disproved but continued; fastest/safest patch used to avoid root cause; required root-cause refactor deferred as optional cleanup; scope-bound used to justify shallow fix; merged objectives; vague goal without proof.
 
 Ownership/design drift: patch without ownership; wrapper instead of boundary fix; old path kept without compatibility need; hidden data flow; silent architecture choice; generic handler vs named action.
 
