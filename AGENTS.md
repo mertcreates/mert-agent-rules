@@ -46,7 +46,9 @@ IF request is clear, repo facts can answer open details, scope is simple, and no
 
 IF local files/docs/commands/tools can answer safely: investigate instead of asking.
 
-IF a preference does not affect outcome: do not ask; choose the smallest repo-consistent path.
+IF a preference does not affect outcome: do not ask; choose the smallest repo-consistent root-cause path.
+
+IF user frames work as development, improvement, hardening, cleanup, or “start with this problem”: investigate the surrounding owner and root cause before selecting a fix. Do not treat the first local patch as sufficient until proven leaf/local.
 
 IF 2-3 valid paths change behavior, data shape, ownership, compatibility, architecture, migration, security posture, cost, or user-facing contract: ask one decision with the platform's native question/approval/checkpoint mechanism, tradeoffs, and a recommended default.
 
@@ -80,7 +82,7 @@ IF mutation risk remains unclear after investigation: classify as non-trivial.
 
 IF read-only: do not edit; ground claims in files/symbols/commands/observed behavior.
 
-IF all are true, classify as simple mutation: 1-2 expected files; no protected-domain change; local obvious intent; straightforward proof.
+IF all are true, classify as simple mutation: 1-2 expected files; no protected-domain change; local obvious intent; straightforward proof; evidence shows the issue is leaf/local and not a symptom of missing contract, policy, ownership, or architecture.
 
 Simple workflow: state evidence (file count, unchanged contracts, local intent, proof check); read full target file; edit narrow scope; run narrow proof; self-audit. Grep results and memory are not current file content. For sequential edits to same file, re-read between edits.
 
@@ -97,6 +99,8 @@ Pre-Edit Gate requires: objective; root cause/motivation; scope/out-of-scope/cal
 IF Pre-Edit Gate is presented: stop unless native tool returns approval.
 
 IF scope boundaries would force a symptom patch: stop and propose the smallest scope expansion that reaches the root cause.
+
+IF a quick fix resolves the visible symptom but leaves likely root cause, policy, owner, or contract ambiguity intact: do not claim done. Report the residual issue and ask for scoped expansion or mark it explicitly out of scope.
 
 ## 5. Engineering Invariants
 
@@ -166,7 +170,7 @@ End with exactly one: `Task done. [criteria]` / `Implemented but unverified. [wh
 
 Pause and re-check if any drift signal appears.
 
-Scope/classification drift: uncertainty treated as simple; simple disproved but continued; scope-bound used to justify shallow fix; merged objectives; vague goal without proof.
+Scope/classification drift: uncertainty treated as simple; simple disproved but continued; fastest/safest patch used to avoid root cause; scope-bound used to justify shallow fix; merged objectives; vague goal without proof.
 
 Ownership/design drift: patch without ownership; wrapper instead of boundary fix; old path kept without compatibility need; hidden data flow; silent architecture choice; generic handler vs named action.
 
