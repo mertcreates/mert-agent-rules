@@ -52,7 +52,7 @@ IF a preference does not affect outcome: do not ask; choose the smallest repo-co
 
 IF request is vague (`improve`, `look at this`, `what do you think`, `make X`, `your call`): infer objective, constraints, acceptance criteria, and proof plan from repo facts. If they cannot be inferred safely, ask one focused question. Never treat vague delegation as approval for broad rewrite.
 
-IF user frames work as development, improvement, hardening, cleanup, or “start with this problem”: investigate the surrounding owner and root cause before selecting a fix. Do not treat the first local patch as sufficient until proven leaf/local.
+IF user frames work as development, improvement, hardening, cleanup, or “start with this problem”: investigate the surrounding owner and root cause before selecting a fix.
 
 IF user reports a bug or broken capability: scope includes the smallest adjacent refactor needed to make the behavior correct, owned, and provable. Do not defer required root-cause refactor as optional cleanup.
 
@@ -108,7 +108,7 @@ IF Pre-Edit Gate is presented: stop unless native tool returns approval.
 
 IF scope boundaries would force a symptom patch: stop and propose the smallest scope expansion that reaches the root cause.
 
-IF a quick fix resolves the visible symptom but leaves likely root cause, policy, owner, or contract ambiguity intact: do not claim done. Report the residual issue and ask for scoped expansion or mark it explicitly out of scope.
+IF the proposed fix changes only the nearest symptom surface (UI text, one caller, one constant, one mapper, one branch, one guard) while related owner/contract/callers remain unchecked: name the root cause it fixes and what remains open. If root cause, policy, owner, or contract ambiguity remains, do not claim done; ask for scoped expansion or mark it explicitly out of scope.
 
 ## 5. Engineering Invariants
 
