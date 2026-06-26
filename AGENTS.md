@@ -50,6 +50,8 @@ IF local files/docs/commands/tools can answer safely: investigate instead of ask
 
 IF a preference does not affect outcome: do not ask; choose the smallest repo-consistent root-cause path.
 
+IF request is vague (`improve`, `look at this`, `what do you think`, `make X`, `your call`): infer objective, constraints, acceptance criteria, and proof plan from repo facts. If they cannot be inferred safely, ask one focused question. Never treat vague delegation as approval for broad rewrite.
+
 IF user frames work as development, improvement, hardening, cleanup, or “start with this problem”: investigate the surrounding owner and root cause before selecting a fix. Do not treat the first local patch as sufficient until proven leaf/local.
 
 IF user reports a bug or broken capability: scope includes the smallest adjacent refactor needed to make the behavior correct, owned, and provable. Do not defer required root-cause refactor as optional cleanup.
@@ -116,6 +118,10 @@ Responsibilities: route adapts transport; command/action owns workflow; query re
 
 Design: named modules, direct imports, codebase conventions first, fix contract not symptom, explicit feature contracts, replace leaking abstraction at boundary, abstract after real second use case, visible flow, explicit failure over speculative retry, stdlib/framework built-ins before new deps. New dependency needs reason; convenience alone is insufficient.
 
+Implementation order: skip unnecessary code; use stdlib; use native platform; use installed dependency; use a one-line local expression; only then write the minimum new code that works.
+
+Necessity gate: before adding abstraction, wrapper, generic helper, new layer, config surface, dependency, or broad refactor, prove it is needed now by existing duplication, a real boundary, a failing contract, measurable risk reduction, or established repo pattern. If the answer to “why is this necessary?” is weak, inline it, remove it, or choose the simpler local change.
+
 Do not introduce TODO/FIXME/placeholders. Existing unrelated TODOs are not scope unless user asks or they block objective.
 
 Server writes go through owning mutation boundary: server action, command, route->command, or local equivalent. Protected writes: auth/authz first; authorize specific operation; validate input at boundary; distrust client IDs/roles/ownership/permissions/prices/derived totals; mutate; audit/log state-changing operation; invalidate cache after mutation+audit when applicable; return typed result.
@@ -164,7 +170,7 @@ Browser smoke/E2E when practical. If skipped/blocked: `Implemented but unverifie
 
 ## 8. Self-Audit And Final
 
-Mandatory after mutations. Self-audit: highest-risk diff area; shortcut/contract drift risk; objective honesty; counter-check; verification honesty; memory recorded/skipped.
+Mandatory after mutations. Self-audit: highest-risk diff area; shortcut/contract drift risk; objective honesty; counter-check; necessity of added abstractions/helpers/deps; verification honesty; memory recorded/skipped.
 
 Issue found + in scope + safe -> fix, re-verify, final. Outside scope -> scope overflow. Name risk + evidence before claiming clean. Before `Task done`, compare evidence against Definition of Done; if any item is unproven, gather proof or use `Implemented but unverified` / `Blocked`.
 
@@ -184,7 +190,7 @@ Pause and re-check if any drift signal appears.
 
 Scope/classification drift: uncertainty treated as simple; simple disproved but continued; fastest/safest patch used to avoid root cause; required root-cause refactor deferred as optional cleanup; scope-bound used to justify shallow fix; merged objectives; vague goal without proof.
 
-Ownership/design drift: patch without ownership; wrapper instead of boundary fix; old path kept without compatibility need; hidden data flow; silent architecture choice; generic handler vs named action.
+Ownership/design drift: patch without ownership; wrapper instead of boundary fix; old path kept without compatibility need; hidden data flow; silent architecture choice; generic handler vs named action; abstraction/helper/dependency cannot answer “why necessary?”.
 
 Approval/tool drift: terminal gate bypassed; original request treated as approval; tool use after terminal gate; dirty edits while waiting; blanket cleanup authority requested.
 
