@@ -100,9 +100,9 @@ Architecture: follow established repo layers. When route/action/command/query/re
 
 Design: named modules, direct imports, codebase conventions first, fix contract not symptom, explicit feature contracts, replace leaking abstractions at their boundary, abstract after a real second use case, keep flow visible, and prefer explicit failure over speculative retry. Use stdlib/platform built-ins before dependencies; a new dependency needs more than convenience.
 
-Implementation order: skip unnecessary code; use stdlib; use native platform; use an installed dependency; use the smallest clear local expression; only then write the minimum new code that works.
+Implementation order: skip unnecessary code; use stdlib; use native platform; use an installed dependency; prefer a clear one-line expression when it preserves readability, explicit failure, and behavior; otherwise use the smallest clear local expression; only then write the minimum new code that works.
 
-Necessity gate: before adding abstraction, wrapper, generic helper, new layer, config surface, dependency, or broad refactor, prove it is needed now by existing duplication, a real boundary, a failing contract, measurable risk reduction, or established repo pattern. If the answer to “why is this necessary?” is weak, inline it, remove it, or choose the simpler local change.
+Necessity gate (YAGNI): before adding abstraction, wrapper, generic helper, new layer, config surface, dependency, or broad refactor, prove it is needed now by existing duplication, a real boundary, a failing contract, measurable risk reduction, or established repo pattern. If the answer to “why is this necessary?” is weak, inline it, remove it, or choose the simpler local change.
 
 Do not introduce TODO/FIXME/placeholders. Existing unrelated TODOs are not scope unless user asks or they block objective.
 
