@@ -38,18 +38,19 @@ If no safe work remains, report the blocker and required decision plainly. After
 
 Classify by consequences, not file count. Simple work has clear local intent, no material protected-domain impact, and straightforward proof. Investigate the owning contract before treating a nearby UI label, mapper, constant, or guard as the root cause.
 
-For non-trivial changes, give a concise Pre-Edit Brief covering objective, root cause, scope, main risk, plan, and proof. Include the acceptance chain for user-facing work. Non-trivial means material changes to public behavior, architecture, persistence, auth/security, build/release behavior, or other meaningful regression risk. Continue after the brief unless a defined approval gate applies.
+For non-trivial changes, give a concise Pre-Edit Brief covering objective, relevant constraint or diagnosed root cause, scope, main risk, plan, and proof. Include the acceptance chain for user-facing work. Non-trivial means material changes to public behavior, architecture, persistence, auth/security, build/release behavior, or other meaningful regression risk. Continue after the brief unless a defined approval gate applies.
 
 If risk expands, preserve current work, explain the changed scope, and update the brief. The smallest adjacent refactor needed for correctness and ownership is in scope; unrelated cleanup is not. A trivial local critical bug may be fixed as a reported bonus only when it introduces no new contract or approval gate. Larger adjacent work needs scope agreement.
 
 ## Engineering invariants
 
 - Follow established owners and layers. Keep transport adaptation, workflows, domain logic, persistence, client state, and rendering at their existing boundaries; do not invent missing layers to satisfy a generic architecture.
-- Prefer stdlib, platform facilities, and installed dependencies. Add abstractions, wrappers, configuration, dependencies, or layers only for real duplication, a meaningful boundary, a failing contract, measurable risk reduction, or an established repository pattern. Choose the smallest readable expression; avoid speculative retries.
+- Prefer stdlib, platform facilities, and installed dependencies. Add structure only when a current caller or requirement needs it and a simpler implementation cannot preserve the same contract; follow repository patterns when that need exists. Choose the smallest readable expression; avoid speculative retries.
+- Use types to prevent plausible invalid states and enforce exhaustive handling of closed variants; introduce specialized types only when they protect a meaningful invariant.
 - Use the owning privileged mutation boundary: authenticate, authorize the operation, validate input, mutate, audit when required, then invalidate caches after success. Distrust client-supplied identity, permissions, prices, and derived totals.
 - Preserve client/server secret and persistence boundaries. Use explicit fields and transactions for consistency-sensitive operations when supported; respect platform limitations rather than simulating guarantees. Raw SQL needs a repository convention or concrete reason.
 - Preserve the established design system, theme tokens, authored prose, and user content. Shared state uses named actions and atomic updates for critical transitions and locks.
-- Keep secrets out of source; validate boundary input and encode untrusted output. Preserve framework control-flow errors, use the local logger for app errors, and explain intentionally empty catches.
+- Keep secrets out of source; validate boundary input and encode untrusted output. Preserve framework control-flow errors, use the local logger for app errors, and explain intentionally empty catches. Distinguish expected failures from broken invariants; surface invariant violations instead of masking them with success-shaped defaults. Keep diagnostics useful without exposing sensitive data.
 - Leave no newly introduced unfinished placeholders. Existing unrelated TODOs remain outside scope.
 
 ## Verification
@@ -64,7 +65,9 @@ Match evidence to the affected behavior:
 | User-facing flow | Browser/manual acceptance chain when practical |
 | Docs or policy | Diff review and a focused rubric |
 
-Run narrow checks first; broaden or repeat for changed code, wider blast radius, failures, or unresolved risk. Coverage thresholds belong to the repository. Reading code and typechecking alone do not prove business behavior. Avoid tests that merely mirror implementation.
+Run narrow checks first; broaden or repeat for changed code, wider blast radius, failures, or unresolved risk. Coverage thresholds belong to the repository. Reading code and typechecking alone do not prove business behavior. Derive expected results from the behavioral contract, independently of the implementation under test.
+
+When practical, demonstrate that regression tests fail before the fix and comparison tests detect a deliberately incorrect result; otherwise report sensitivity as unverified.
 
 Verify test isolation from scripts and environment rather than assuming it. When tests use disposable fixtures with no production access or consequential external effects, run them, fix change-caused failures, and rerun affected checks without repeated approval.
 
@@ -80,6 +83,6 @@ Use persistent task state for cross-session work, handoff, or substantial contex
 
 ## Self-audit and final
 
-Inspect the highest-risk diff for scope and ownership drift, bypassed gates, lost user work, security or contract regressions, unnecessary complexity, and evidence gaps. Fix safe in-scope findings and re-verify affected behavior.
+Inspect the highest-risk diff for scope and ownership drift, bypassed gates, lost user work, security or contract regressions, unnecessary complexity, and evidence gaps. Check that each added helper, option, branch, and comment serves a current requirement or explains a non-obvious constraint. Fix safe in-scope findings and re-verify affected behavior.
 
 Report the changed outcome, verification evidence, and material remaining gaps. Include only concrete, actionable, task-relevant debt; omit ritual declarations of a clean audit. Distinguish completed work from unverified behavior or blocked actions. Local/static proof is not deployment proof.
