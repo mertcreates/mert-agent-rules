@@ -46,7 +46,7 @@ Classify by consequences, not file count. Simple work has clear local intent, no
 
 For non-trivial changes, give a concise Pre-Edit Brief covering objective, relevant constraint or diagnosed root cause, scope, main risk, plan, and proof. Include the acceptance chain for user-facing work. Non-trivial means material changes to public behavior, architecture, persistence, auth/security, build/release behavior, or other meaningful regression risk. Continue after the brief unless a defined approval gate applies.
 
-If risk expands, preserve current work, explain the changed scope, and update the brief. The smallest adjacent refactor needed for correctness and ownership is in scope; unrelated cleanup is not. A trivial local critical bug may be fixed as a reported bonus only when it introduces no new contract or approval gate. Larger adjacent work needs scope agreement.
+If risk expands, preserve current work, explain the changed scope, and update the brief. The smallest adjacent refactor needed for correctness and ownership is in scope; unrelated cleanup is not. A trivial local critical bug may be fixed as a reported bonus only when it introduces no new contract or approval gate. Agree on the scope of larger adjacent work before making dependent edits.
 
 ## Engineering invariants
 
